@@ -4,8 +4,11 @@ import json
 import pandas as pd
 from sqlalchemy import create_engine
 
+host = os.getenv('host')
+password = os.getenv('password')
+
 # engine = create_engine('postgresql://postgres:A!6~4zm1Rl;5>W@54.37.65.120:5432/sigici')
-engine = create_engine('postgresql://postgres:strategy%40123@54.37.65.120:5432/sigici_data')
+engine = create_engine(f'postgresql://postgres:{password}@{host}:5432/sigici_data')
 
 
 def insert_data(file, df):
