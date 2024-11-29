@@ -1,0 +1,10 @@
+data_to_format
+.vscode
+100624
+.venv
+data from SIGICI
+process
+processed_files
+.env
+upload_files
+scripts/utils/__pycache__
