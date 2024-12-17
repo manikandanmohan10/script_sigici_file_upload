@@ -37,6 +37,35 @@ ALTER USER postgres PASSWORD 'yourpassword';
 ```
 Now you should be able to run pg_dump and use the password you just set.
 
+# To allow this db connection to external domain or server:
+
+```
+sudo nano /etc/postgresql/<version>/main/postgresql.conf
+```
+
+Change the listen
+
+```
+listen_addresses = '*'
+```
+
+```
+sudo nano /etc/postgresql/16/main/pg_hba.conf
+```
+
+Add the below line
+
+```
+host    all             all             0.0.0.0/0               md5
+```
+
+Restart the postgresql
+
+```
+sudo systemctl restart postgresql
+```
+
+
 # Create a backup
 
 ```
