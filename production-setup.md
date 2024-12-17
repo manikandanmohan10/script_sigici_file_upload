@@ -97,7 +97,7 @@ scp ubuntu@54.37.65.120:/home/ubuntu/backup/dec-17.backup /home/ss-pr-cpu-37nwe/
 ## Share the backup file from local to server
 
 ```
-scp /home/ss-pr-cpu-37nwe/Desktop/strategy/strategy_prod_official/database/backup/dec-17.backup ubuntu@54.37.65.120:/home/ubuntu/backup
+scp /home/ubuntu/backup/dec-17-2.backup ubuntu@135.125.181.152:/home/ubuntu/backup
 ```
 
 ## Restore the backup file
