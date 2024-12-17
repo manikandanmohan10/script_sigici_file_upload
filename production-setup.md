@@ -17,6 +17,7 @@ psql
 ```
 
 # change password
+
 ## Switch to the PostgreSQL user:
 
 ```
@@ -83,11 +84,24 @@ sudo systemctl restart postgresql
 5) Permission
 
  ```
- sudo chmod 755 /home/ubuntu/backup
+sudo chown ubuntu:ubuntu /home/ubuntu/backup
+sudo chmod 755 /home/ubuntu/backup
  ```
 
-## share the backup file
+## share the backup file to local
 
 ```
-scp ubuntu@54.36.99.205:/home/ubuntu/backup/dec-17.backup /home/ss-pr-cpu-37nwe/Desktop/strategy/strategy_prod_official/database/backup`
+scp ubuntu@54.37.65.120:/home/ubuntu/backup/dec-17.backup /home/ss-pr-cpu-37nwe/Desktop/strategy/strategy_prod_official/database/backup
+```
+
+## Share the backup file from local to server
+
+```
+scp /home/ss-pr-cpu-37nwe/Desktop/strategy/strategy_prod_official/database/backup/dec-17.backup ubuntu@54.37.65.120:/home/ubuntu/backup
+```
+
+## Restore the backup file
+
+```
+pg_restore -U username -d sigici -1 backup_file.sql
 ```
