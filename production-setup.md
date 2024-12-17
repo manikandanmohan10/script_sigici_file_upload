@@ -1,129 +1,130 @@
 
-  
-# Postgress db
+# PostgreSQL Setup and Backup Guide
 
-To install postgres sql
+## Installing PostgreSQL
+
+To install PostgreSQL, run the following commands:
 
 ```
 sudo apt install postgresql
 ```
 
+## To connect to postgreSQL
+
+Switch to the PostgreSQL user:
 ```
 sudo -i -u postgres
 ```
-
+Access the PostgreSQL CLI:
 ```
 psql
 ```
-
-# change password
-
-## Switch to the PostgreSQL user:
-
+Exit the postgresql
 ```
-sudo -i -u postgres
+\q
 ```
 
-## Access the PostgreSQL CLI:
-Set a password for the postgres user (or reset it if you already have one):
 
+## Changing the PostgreSQL Password
+
+Access the PostgreSQL CLI and set a new password for the postgres user:
 ```
 ALTER USER postgres PASSWORD 'yourpassword';
 ```
 
-## Exit the PostgreSQL CLI:
-```
-\q
-```
-Now you should be able to run pg_dump and use the password you just set.
+## Allowing External Database Connections
 
-# To allow this db connection to external domain or server:
+To allow PostgreSQL connections from external servers, follow these steps:
+
+1. Modify the `postgresql.conf` file to allow external connections:
 
 ```
 sudo nano /etc/postgresql/<version>/main/postgresql.conf
 ```
 
-Change the listen
+Set `listen_addresses` to:
 
 ```
 listen_addresses = '*'
 ```
 
-```
-sudo nano /etc/postgresql/16/main/pg_hba.conf
-```
-
-Add the below line
+2.Modify the pg_hba.conf file to accept connections:
 
 ```
-host    all             all             0.0.0.0/0               md5
+sudo nano /etc/postgresql/<version>/main/pg_hba.conf
+```
+Add the following line:
+
+```
+host    all             all             146.59.239.166/32          md5
 ```
 
-Restart the postgresql
+3.Restart PostgreSQL to apply changes:
 
 ```
 sudo systemctl restart postgresql
 ```
 
+## Creating a Backup
 
-# Create a backup
+1.Create a directory for the backup:
 
 ```
 mkdir backup
 ```
 
-```
-sudo chown postgres:postgres /home/ubuntu/backup
-sudo chmod 700 /home/ubuntu/backup
-```
-
-
-
-# Backup cmd:
+2.Set the appropriate permissions:
 
 ```
-sudo pg_dump -U postgres -W -F c -b -v -f /home/ubuntu/backup/dec-17.backup sigici_data
+sudo chown ubuntu:ubuntu /home/ubuntu/backup
+sudo chmod 755 /home/ubuntu/backup
 ```
 
-## Issue with backup
+### Resolving Backup Issues
 
-1) Open the file
+If you encounter issues with backup permissions, follow these steps:
+
+1. Open the `pg_hba.conf` file:
+
 ```
 sudo nano /etc/postgresql/<version>/main/pg_hba.conf
 ```
 
-2) Locate the Peer Authentication Entry: Find a line like this:
+2. Find the line:
 
 ```
 local   all   postgres   peer
 ```
 
-3) Change peer to md5: Modify the line to:
+3. Change peer to md5:
 
 ```
 local   all   postgres   md5
 ```
 
-4) Restart
-   
+4. Restart PostgreSQL:
+
 ```
 sudo systemctl restart postgresql
 ```
 
-5) Permission
-
- ```
-sudo chown ubuntu:ubuntu /home/ubuntu/backup
-sudo chmod 755 /home/ubuntu/backup
- ```
-
-## share the backup file to local
+### Backup cmd:
 
 ```
-scp ubuntu@54.37.65.120:/home/ubuntu/backup/dec-17.backup /home/ss-pr-cpu-37nwe/Desktop/strategy/strategy_prod_official/database/backup
+sudo pg_dump -U postgres -W -F c -b -v -f /home/ubuntu/backup/dec-17.backup sigici_data
 ```
 
-## Share the backup file from local to server
+
+
+## Share the backup file
+
+1.To share the backup file from the server to your local machine:
+
+```
+scp ubuntu@54.37.65.120:/home/ubuntu/backup/dec-17.backup <path>/backup
+```
+
+2.To share the backup file from local to server
 
 ```
 scp /home/ubuntu/backup/dec-17-2.backup ubuntu@135.125.181.152:/home/ubuntu/backup
