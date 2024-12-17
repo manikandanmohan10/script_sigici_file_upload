@@ -85,3 +85,9 @@ sudo systemctl restart postgresql
  ```
  sudo chmod 755 /home/ubuntu/backup
  ```
+
+## share the backup file
+
+```
+scp ubuntu@54.36.99.205:/home/ubuntu/backup/dec-17.backup /home/ss-pr-cpu-37nwe/Desktop/strategy/strategy_prod_official/database/backup`
+```
