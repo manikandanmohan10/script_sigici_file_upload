@@ -103,5 +103,5 @@ scp /home/ss-pr-cpu-37nwe/Desktop/strategy/strategy_prod_official/database/backu
 ## Restore the backup file
 
 ```
-pg_restore -U username -d sigici -1 backup_file.sql
+pg_restore -U postgres -d sigici_data -v /home/ubuntu/backup/dec-17.backup
 ```
